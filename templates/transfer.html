@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>송금하기</h2>
+  <form method="post" style="max-width: 400px;">
+    <div class="mb-3">
+      <label>받는 사용자 아이디</label>
+      <input name="receiver" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>금액</label>
+      <input type="number" name="amount" class="form-control" required>
+    </div>
+    <button class="btn btn-primary">송금</button>
+  </form>
+  <p class="mt-3">※ 현재 잔액: <strong>{{ current_user.balance }}원</strong></p>
+{% endblock %}

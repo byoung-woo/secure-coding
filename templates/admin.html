@@ -1,0 +1,59 @@
+kk{% extends "base.html" %}
+{% block content %}
+  <h2>관리자 페이지</h2>
+
+  <h4>신고된 사용자</h4>
+  <table class="table">
+    <tr>
+      <th>아이디</th>
+      <th>신고수</th>
+      <th>상태</th>
+      <th>관리</th>
+    </tr>
+    {% for u in users %}
+      <tr>
+        <td>{{ u['username'] }}</td>
+        <td>{{ u['report_count'] }}</td>
+        <td>{{ '차단됨' if u['is_blocked'] else '-' }}</td>
+        <td>
+          {% if u['is_blocked'] %}
+            <a href="{{ url_for('admin_unblock_user', user_id=u['id']) }}" class="btn btn-sm btn-secondary">해제</a>
+          {% endif %}
+
+          <form method="post" action="{{ url_for('admin_delete_user', user_id=u['id']) }}" style="display:inline;">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('정말 이 사용자를 삭제할까요?');">삭제</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <h4>신고된 상품</h4>
+  <table class="table">
+    <tr>
+      <th>상품명</th>
+      <th>판매자</th>
+      <th>신고수</th>
+      <th>상태</th>
+      <th>관리</th>
+    </tr>
+    {% for p in products %}
+      <tr>
+        <td>{{ p['title'] }}</td>
+        <td>{{ p['seller_name'] }}</td>
+        <td>{{ p['report_count'] }}</td>
+        <td>{{ '차단됨' if p['is_blocked'] else '-' }}</td>
+        <td>
+          {% if p['is_blocked'] %}
+            <a href="{{ url_for('admin_unblock_product', product_id=p['id']) }}" class="btn btn-sm btn-secondary">해제</a>
+          {% endif %}
+
+          <form method="post" action="{{ url_for('admin_delete_product', product_id=p['id']) }}" style="display:inline;">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('정말 이 상품을 삭제할까요?');">삭제</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
+

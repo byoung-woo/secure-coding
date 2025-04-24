@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>상품 수정</h2>
+  <form method="post" style="max-width: 500px;">
+    <div class="mb-3">
+      <label>상품명</label>
+      <input name="title" value="{{ product['title'] }}" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>설명</label>
+      <textarea name="description" class="form-control">{{ product['description'] }}</textarea>
+    </div>
+    <div class="mb-3">
+      <label>가격</label>
+      <input type="number" name="price" value="{{ product['price'] }}" class="form-control" required>
+    </div>
+    <button class="btn btn-primary">수정 완료</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>상품 목록</h1>
+  {% if products and products|length > 0 %}
+    <div class="list-group">
+      {% for prod in products %}
+        <a href="{{ url_for('product_detail', product_id=prod['id']) }}" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ prod['title'] }}</h5>
+            {% if prod['price'] is not none %}
+              <small class="text-muted">{{ prod['price'] }} 원</small>
+            {% endif %}
+          </div>
+          <p class="mb-1 small text-muted">판매자: {{ prod['seller_name'] }}</p>
+          {% if prod['description'] %}
+          <small class="text-muted">{{ prod['description']|truncate(50, True) }}</small>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>등록된 상품이 없습니다.</p>
+  {% endif %}
+{% endblock %}

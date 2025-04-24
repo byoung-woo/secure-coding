@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>내가 등록한 상품</h2>
+  {% if products %}
+    <ul class="list-group">
+      {% for p in products %}
+        <li class="list-group-item">
+          <h5>{{ p['title'] }} - {{ p['price'] }}원</h5>
+          <p>{{ p['description'] }}</p>
+
+          <!-- 수정 버튼 -->
+          <a href="{{ url_for('edit_product', product_id=p['id']) }}" class="btn btn-sm btn-warning">수정</a>
+
+          <!-- 삭제 버튼 (POST + 확인창) -->
+          <form method="post" action="{{ url_for('delete_product', product_id=p['id']) }}" style="display:inline;">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>등록한 상품이 없습니다.</p>
+  {% endif %}
+{% endblock %}
+

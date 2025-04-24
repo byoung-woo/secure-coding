@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>채팅 - {{ other_username }}{% if target_blocked %} <span class="badge bg-danger">차단됨</span>{% endif %}</h2>
+  <div class="mb-3" style="max-height:400px; overflow-y:auto; border:1px solid #ccc; padding: 10px;">
+    {% if messages and messages|length > 0 %}
+      {% for msg in messages %}
+        {% if msg['sender_id'] == current_user.id %}
+          <p class="text-end"><strong>나:</strong> {{ msg['content'] }} <small class="text-muted">({{ msg['timestamp'] }})</small></p>
+        {% else %}
+          <p><strong>{{ other_username }}:</strong> {{ msg['content'] }} <small class="text-muted">({{ msg['timestamp'] }})</small></p>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">메시지 없음.</p>
+    {% endif %}
+  </div>
+  {% if target_blocked %}
+    <p class="text-danger">상대 사용자가 차단되어 있어 메시지를 보낼 수 없습니다.</p>
+  {% else %}
+    <form action="{{ url_for('chat', user_id=other_id) }}" method="post">
+      <div class="mb-3 d-flex">
+        <input type="text" name="content" class="form-control me-2" placeholder="메시지 입력..." required>
+        <button type="submit" class="btn btn-primary">전송</button>
+      </div>
+    </form>
+  {% endif %}
+  <p><a href="{{ url_for('report_user', user_id=other_id) }}" onclick="return confirm('해당 사용자를 신고하시겠습니까?');">⚠️ 사용자 신고</a></p>
+{% endblock %}
